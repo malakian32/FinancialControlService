@@ -4,24 +4,30 @@
  */
 package services;
 
+import com.bank.service.RObImpl;
+import model.EPSData;
 import model.Payment;
 import model.ProcessResult;
-import model.ROb;
+import model.dao.SingleDAO;
 
 /**
  *
  * @author NicolasR
  */
 public class AdminBankPayments {
-        
-    public ProcessResult appointmentChargeTransfer(Payment payment)
-    {
-        //with payment Information, we use the Bank's WS for WebTransfers. Meanwhile we define a success ROb
-        
-        ROb received = new ROb();
-        received.setData(payment);
-        received.setErr_message("success");
-        received.setSuccess(true);
+
+    public ProcessResult appointmentChargeTransfer(Payment payment) {
+
+        EPSData tempEPSData = (EPSData) SingleDAO.getInstance().getEPSDAO().findAll().get(0);
+        Long source = tempEPSData.getBankAccount();
+        String password = tempEPSData.getPassword();
+
+        Long destination = Long.parseLong(payment.getBankAccountDestination());
+
+        double amount = Double.parseDouble(payment.getMoneyAmount());
+
+        RObImpl received = this.pay(source, destination, amount, password);
+
 
         if (received.isSuccess()) {
             return ProcessResult.COMPLETED;
@@ -29,5 +35,20 @@ public class AdminBankPayments {
         } else {
             return ProcessResult.ERROR;
         }
+    }
+
+    public ProcessResult registerEPSBankAccount(Long bankAccount, String EPSName, String password) {
+        EPSData epsData = new EPSData(bankAccount, EPSName, password);
+        SingleDAO.getInstance().getEPSDAO().save(epsData);
+        return ProcessResult.COMPLETED;
+
+
+
+    }
+
+    private RObImpl pay(long source, long destination, double amount, java.lang.String passwd) {
+        com.bank.service.Payment_Service service = new com.bank.service.Payment_Service();
+        com.bank.service.Payment port = service.getPaymentPort();
+        return port.pay(source, destination, amount, passwd);
     }
 }

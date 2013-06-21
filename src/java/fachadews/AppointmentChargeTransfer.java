@@ -8,7 +8,6 @@ import javax.ejb.Stateless;
 import javax.jws.WebService;
 import model.Payment;
 import model.ProcessResult;
-import model.ROb;
 import services.AdminBankPayments;
 
 /**
@@ -20,7 +19,8 @@ import services.AdminBankPayments;
 public class AppointmentChargeTransfer {
 
     public ProcessResult AppoinmentChargeTransfer(Payment payment) {
-
         return new AdminBankPayments().appointmentChargeTransfer(payment);
     }
+    
+    
 }
