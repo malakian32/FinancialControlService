@@ -41,11 +41,18 @@ public class AdminBankPayments {
         EPSData epsData = new EPSData(bankAccount, EPSName, password);
         SingleDAO.getInstance().getEPSDAO().save(epsData);
         return ProcessResult.COMPLETED;
-
-
-
+      }
+    
+    /*public ProcessResult updateEPSBankAccount(Long bankAccount){
+        EPSData epsData = this.consultEPSBankAccount();
+       
+    }*/
+    
+    public EPSData consultEPSBankAccount() {
+        return SingleDAO.getInstance().getEPSDAO().get(0);
     }
-
+    
+    
     private RObImpl pay(long source, long destination, double amount, java.lang.String passwd) {
         com.bank.service.Payment_Service service = new com.bank.service.Payment_Service();
         com.bank.service.Payment port = service.getPaymentPort();

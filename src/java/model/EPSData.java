@@ -36,6 +36,10 @@ public class EPSData {
         return password;
     }
     
+    public void updateEPSData(String EPSName, String password) {
+        this.EPSName = EPSName;
+        this.password = password;
+    }
     
     
 }
