@@ -24,8 +24,7 @@ public class EPSDataDAO extends BasicDAO<EPSData , Integer>{
         return ds.find(EPSData.class).asList();
         
     }
-
-    
+  
     
     
 }

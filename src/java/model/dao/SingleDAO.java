@@ -22,11 +22,12 @@ public class SingleDAO {
 
     public SingleDAO() {
 
-
+        mongo = null;
         try {
             this.mongo = new Mongo("localhost", 27017);
 
         } catch (UnknownHostException e) {
+            System.out.println(e.getMessage());
         }
         
         morphia = new Morphia();
@@ -36,12 +37,10 @@ public class SingleDAO {
         
     
     }
-
-    public EPSDataDAO getEPSDAO() {
+    
+     public EPSDataDAO getEPSDAO() {
         return EPSDAO;
     }
-    
-    
     
     public synchronized static SingleDAO getInstance() {
 		while (m_this == null) {

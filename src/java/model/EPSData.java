@@ -21,6 +21,7 @@ public class EPSData {
         this.bankAccount = bankAccount;
         this.EPSName = EPSName;
         this.password = password;
+        
     }
 
     public Long getBankAccount() {
